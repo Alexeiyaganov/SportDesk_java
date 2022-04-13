@@ -57,7 +57,7 @@ public class UserService implements UserDetailsService {
         if(!StringUtils.isEmpty(user.getEmail())){
             String message=String.format(
                     "Hello, %s! \n" +
-                            "Welcome to Sport Desk. Please, visit next link: http://sportdesk.herokuapp/active/%s",
+                            "Welcome to Sport Desk. Please, visit next link: https://sportdesk.herokuapp/active/%s",
                             user.getUsername(),
                             user.getActivationCode()
             );
