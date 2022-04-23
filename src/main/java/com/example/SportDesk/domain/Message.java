@@ -38,6 +38,9 @@ public class Message {
     public String getAuthorName(){
         return author!=null ? author.getUsername() : "<none>";
     }
+    public Long getAuthorId(){
+        return author!=null ? author.getId() : -1;
+    }
 
     public User getAuthor() {
         return author;

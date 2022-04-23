@@ -56,8 +56,8 @@ public class UserService implements UserDetailsService {
     private void sendMessage(User user) {
         if(!StringUtils.isEmpty(user.getEmail())){
             String message=String.format(
-                    "Hello, %s! \n" +
-                            "Welcome to Sport Desk. Please, visit next link: https://sportdesk.herokuapp/active/%s",
+                    "Привет, %s! \n" +
+                            "Добро пожаловать в Sport Desk. Посети следующую ссылку: https://sportdesk.herokuapp/active/%s",
                             user.getUsername(),
                             user.getActivationCode()
             );
@@ -115,5 +115,17 @@ public class UserService implements UserDetailsService {
             sendMessage(user);
         }
 
+    }
+
+    public void subscribe(User currentUser, User user) {
+        user.getSubscribers().add(currentUser);
+
+        userRepo.save(user);
+    }
+
+    public void unsubscribe(User currentUser, User user) {
+        user.getSubscribers().remove(currentUser);
+
+        userRepo.save(user);
     }
 }

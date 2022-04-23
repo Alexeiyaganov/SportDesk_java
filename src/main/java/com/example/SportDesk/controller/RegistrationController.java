@@ -77,13 +77,13 @@ public class RegistrationController {
 
         if(isActivated){
             model.addAttribute("messageType", "success");
-            model.addAttribute("message", "User successfully activated");
+            model.addAttribute("message", "Пользователь успешно активирован");
         } else {
             model.addAttribute("messageType", "danger");
-            model.addAttribute("message", "Activation code is not found!");
+            model.addAttribute("message", "Код активации не найден!");
         }
 
-        System.out.print("yees");
+        System.out.print("yes");
         return "login";
     }
 }
