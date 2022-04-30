@@ -57,7 +57,7 @@ public class UserService implements UserDetailsService {
         if(!StringUtils.isEmpty(user.getEmail())){
             String message=String.format(
                     "Привет, %s! \n" +
-                            "Добро пожаловать в Sport Desk. Посети следующую ссылку: https://sportdesk.herokuapp/active/%s",
+                            "Добро пожаловать в Sport Desk. Посети следующую ссылку: http://localhost:8080/activate/%s",
                             user.getUsername(),
                             user.getActivationCode()
             );
@@ -72,6 +72,7 @@ public class UserService implements UserDetailsService {
         }
 
         user.setActivationCode(null);
+        user.setActive(true);
         userRepo.save(user);
         return true;
     }

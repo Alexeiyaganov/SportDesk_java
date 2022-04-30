@@ -1,10 +1,27 @@
 <#include "security.ftl">
+<#import "pager.ftl" as p>
+
+<@p.pager url page/>
 
 <div class='color container-fluid ' >
-    <#list messages as message>
-        <div class="row align-items-center border border-secondary" <#if message.filename??> style="background: gainsboro; height: 150px" </#if>>
-            <div class="col"><h5>Название карточки</h5></div>
-            <div class="col"><#if message.filename??><a href="/img/${message.filename}"><img src="/img/${message.filename}" class="img-thumbnail rounded-circle" style="font-size: 3em;"></a></#if></div>
+    <br>
+    <div class="row align-items-center border border-secondary" >
+        <div class="col"><span>Название</span></div>
+        <div class="col"><span>Превью</span></div>
+        <div class="col"><span>Дата и время</span></div>
+        <div class="col"><span>Описание мероприятия</span></div>
+        <div class="col"><i>Тэг</i></div>
+        <div class="col"><span>Подробное описание</span><</div>
+        <div class="col"><span>Последнее редактирование</span></div>
+        <div class="col"><span>Организатор</span></div>
+        <div class="col"></div>
+
+    </div>
+    <#list page.content as message>
+        <div class="row align-items-center border border-secondary" <#if message.filename??> style="background: aquamarine;" </#if>>
+            <div class="col"><span>${message.name}</span></div>
+            <div class="col"><#if message.filename??><a href="/img/${message.filename}"><img src="/img/${message.filename}" class="img-fluid "  style="max-height: 50px"></a></#if></div>
+            <div class="col"><span>${message.date}</span></div>
             <div class="col"><span>${message.text}</span></div>
             <div class="col"><i>#${message.tag}</i></div>
             <div class="col"><a class="btn btn-primary" href="/user-messages/${message.authorId}">Подробнее</a></div>
@@ -17,3 +34,9 @@
         Нет новостей
     </#list>
 </div>
+<script>
+    function popup() {
+        window.open("../img/b4594eb8-8e02-49b7-b33a-f6ea42580804.k.jpg", 'window', 'width=200,height=100');
+    }
+</script>
+<@p.pager url page/>

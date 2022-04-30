@@ -2,6 +2,7 @@ package com.example.SportDesk.controller;
 
 import com.example.SportDesk.domain.User;
 import com.example.SportDesk.domain.dto.CaptchaResponseDto;
+import com.example.SportDesk.repos.UserRepo;
 import com.example.SportDesk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +32,9 @@ public class RegistrationController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @GetMapping("/registration")
     public String registration(){
@@ -68,22 +72,29 @@ public class RegistrationController {
             model.addAttribute("usernameError", "Пользователь существует!");
             return "registration";
         }
-        return "redirect:/login";
+
+        user.setActive(false);
+
+        model.addAttribute("messageType","info");
+        model.addAttribute("message", "Посетите ваш почтовый ящик и подтвердите ваш адрес электронной почты");
+        return "login";
     }
 
     @GetMapping("/activate/{code}")
     public String activate(Model model, @PathVariable String code){
         boolean isActivated=userService.activateUser(code);
+        //User curentuser=userRepo.findByActivationCode(code);
 
         if(isActivated){
-            model.addAttribute("messageType", "success");
+            model.addAttribute("messageType","success");
             model.addAttribute("message", "Пользователь успешно активирован");
+           // curentuser.setActive(true);
         } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Код активации не найден!");
         }
 
-        System.out.print("yes");
+        System.out.print("success");
         return "login";
     }
 }

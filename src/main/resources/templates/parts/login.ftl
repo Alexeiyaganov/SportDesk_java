@@ -1,3 +1,4 @@
+<#include "security.ftl">
 <#macro login path isRegisterForm>
     <form action="${path}" method="post">
         <div class="form-group row">
@@ -58,14 +59,14 @@
             </div>
         </#if>
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
-        <#if !isRegisterForm><a href="/registration">Add new user</a></#if>
-        <button class="btn btn-primary" type="submit"><#if isRegisterForm> Create<#else>Sign In</#if></button>
+        <#if !isRegisterForm><a href="/registration">Добавить нового пользователя</a></#if>
+        <button class="btn btn-primary" type="submit"><#if isRegisterForm> Создать <#else> Войти </#if></button>
     </form>
 </#macro>
 
 <#macro logout>
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
-        <button class="btn btn-primary" type="submit"><#if user??>Sign Out<#else>Log in</#if></button>
+        <button class="btn btn-primary" type="submit"><#if user??>Выйти<#else>Войти</#if></button>
     </form>
 </#macro>

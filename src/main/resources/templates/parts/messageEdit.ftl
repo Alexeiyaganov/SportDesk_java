@@ -1,13 +1,41 @@
-
+<#include "security.ftl">
+<#if user??>
     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         Добавить мероприятие
     </a>
+
     <div class="collapse <#if message??>show</#if>" id="collapseExample">
         <div class="form-group mt-3">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
+                    <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')}"
+                           value="<#if message??>${message.name}</#if>" name="name" placeholder="Введите название" />
+                    <#if nameError??>
+                        <div class="invalid-feedback">
+                            ${nameError}
+
+                        </div>
+                    </#if>
+                </div>
+
+                <div class="form-group ${(dateError??)?string('is-invalid', '')}">
+                    <input type="datetime-local" class="form-control " value="<#if message??>${message.date}</#if>"
+                           name="localDateTime" />
+                    <#if dateError??>
+                        <div class="invalid-feedback">
+                            ${dateError}
+
+                        </div>
+                    </#if>
+
+                </div>
+
+
+
+
+                <div class="form-group">
                     <input type="text" class="form-control ${(textError??)?string('is-invalid', '')}"
-                           value="<#if message??>${message.text}</#if>" name="text" placeholder="Введите сообщение" />
+                           value="<#if message??>${message.text}</#if>" name="text" placeholder="Введите описание мероприятия" />
                     <#if textError??>
                         <div class="invalid-feedback">
                             ${textError}
@@ -39,3 +67,5 @@
             </form>
         </div>
     </div>
+</#if>
+<br>

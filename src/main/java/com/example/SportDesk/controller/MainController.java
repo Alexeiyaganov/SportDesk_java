@@ -4,26 +4,30 @@ import com.example.SportDesk.domain.Message;
 import com.example.SportDesk.domain.User;
 import com.example.SportDesk.domain.dto.MessageDto;
 import com.example.SportDesk.repos.MessageRepo;
+import com.example.SportDesk.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -32,6 +36,9 @@ import java.util.UUID;
 public class MainController {
     @Autowired
     private MessageRepo messageRepo;
+
+    @Autowired
+    private MessageService messageService;
 
 
     @Value("${upload.path}")
@@ -43,16 +50,17 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Message> messages;
+    public String main(
+            @RequestParam(required = false, defaultValue = "")
+            String filter,
+            Model model,
+            @PageableDefault(sort = {"date"}, direction = Sort.Direction.ASC) Pageable pageable,
+            @AuthenticationPrincipal User user
+    ) {
+        Page<Message> page = messageService.messageList(pageable, filter, user);
 
-        if (filter != null && !filter.isEmpty()) {
-            messages = messageRepo.findByTag(filter);
-        } else {
-            messages = messageRepo.findAll();
-        }
-
-        model.addAttribute("messages", messages);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/main");
         model.addAttribute("filter", filter);
 
         return "main";
@@ -61,10 +69,11 @@ public class MainController {
     @PostMapping("/main")
     public String add(
             @AuthenticationPrincipal User user,
-            @RequestParam String text,
             @Valid Message message,
             BindingResult bindingResult,
             Model model,
+            @RequestParam("localDateTime")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime localDateTime,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
         message.setAuthor(user);
@@ -76,6 +85,7 @@ public class MainController {
         }else {
 
             saveFile(message, file);
+            saveDate(message, localDateTime);
 
             model.addAttribute("message", null);
 
@@ -86,8 +96,17 @@ public class MainController {
 
         model.addAttribute("messages", messages);
 
-        return "main";
+        return "redirect:/main";
     }
+
+
+    private void saveDate(@Valid Message message, @RequestParam("localDateTime")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime localDateTime) throws IOException {
+        String mydate=localDateTime.toString();
+
+        message.setDate(mydate);
+    }
+
 
     private void saveFile(@Valid Message message, @RequestParam("file") MultipartFile file) throws IOException {
         if (file != null && !file.getOriginalFilename().isEmpty()) {
@@ -111,17 +130,20 @@ public class MainController {
             @AuthenticationPrincipal User currentUser,
             @PathVariable User user,
             Model model,
-            @RequestParam(required = false) Message message
+            @RequestParam(required = false) Message message,
+            @PageableDefault(sort = {"date"}, direction = Sort.Direction.ASC) Pageable pageable
     ){
-        Set<Message> messages = user.getMessages();
+        Page<Message> page = messageService.messageListForUser(pageable, currentUser, user);
+
 
         model.addAttribute("userChannel", user);
         model.addAttribute("subscriptionsCount", user.getSubscriptions().size());
         model.addAttribute("subscribersCount", user.getSubscribers().size());
         model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
-        model.addAttribute("messages", messages);
         model.addAttribute("message", message);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/user-messages/" + user);
 
         return "userMessages";
     }
@@ -131,6 +153,7 @@ public class MainController {
             @AuthenticationPrincipal User currentUser,
             @PathVariable Long user,
             @RequestParam("id") Message message,
+            @RequestParam("name") String name,
             @RequestParam("text") String text,
             @RequestParam("tag") String tag,
             @RequestParam("file") MultipartFile file
@@ -138,6 +161,10 @@ public class MainController {
         if(message.getAuthor().equals(currentUser)){
             if(!StringUtils.isEmpty(tag)){
                 message.setTag(tag);
+            }
+
+            if(!StringUtils.isEmpty(name)){
+                message.setName(name);
             }
 
             if(!StringUtils.isEmpty(text)){

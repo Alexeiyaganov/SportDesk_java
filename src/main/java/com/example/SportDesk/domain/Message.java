@@ -2,9 +2,11 @@ package com.example.SportDesk.domain;
 
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -14,9 +16,19 @@ public class Message {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message="Введите название мероприятии")
+    @Length(max=500, message="Информация слишком большая (больше 2kB)")
+    private String name;
+
     @NotBlank(message="Введите информацию о мероприятии")
     @Length(max=2048, message="Информация слишком большая (больше 2kB)")
     private String text;
+
+    private String date;
+
+    @Length(max=255, message="Время слишком большое")
+    private String time;
+
     @Length(max=255, message="Тэг слишком длинный")
     private  String tag;
 
@@ -29,7 +41,8 @@ public class Message {
     public Message() {
     }
 
-    public Message(String text, String tag, User user) {
+    public Message(String name, String text, String tag, User user) {
+        this.name=name;
         this.author=user;
         this.text = text;
         this.tag = tag;
@@ -50,6 +63,22 @@ public class Message {
         this.author = author;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate (String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public void setText(String text){
         this.text=text;
     }
@@ -57,6 +86,15 @@ public class Message {
     public String getText() {
         return text;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public Long getId() {
         return id;
