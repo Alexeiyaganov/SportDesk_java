@@ -2,6 +2,7 @@ package com.example.SportDesk.domain;
 
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -26,8 +27,8 @@ public class Message {
 
     private String date;
 
-    @Length(max=255, message="Время слишком большое")
-    private String time;
+    @CreatedDate
+    
 
     @Length(max=255, message="Тэг слишком длинный")
     private  String tag;
@@ -71,13 +72,6 @@ public class Message {
         this.date = date;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     public void setText(String text){
         this.text=text;

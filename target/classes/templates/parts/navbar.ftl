@@ -15,6 +15,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/main">Мероприятия</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/results">Результаты</a>
+            </li>
             <#if user??>
             <li class="nav-item">
                 <a class="nav-link" href="/user-messages/${currentUserId}">Мои мероприятия</a>

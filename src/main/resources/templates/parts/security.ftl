@@ -1,5 +1,6 @@
 <#assign
     known = Session.SPRING_SECURITY_CONTEXT??
+    currentDateTime = .now
 >
 
 <#if known>

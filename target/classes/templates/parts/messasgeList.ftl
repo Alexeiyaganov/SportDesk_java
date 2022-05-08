@@ -3,6 +3,7 @@
 
 <@p.pager url page/>
 
+
 <div class='color container-fluid ' >
     <br>
     <div class="row align-items-center border border-secondary" >
@@ -18,9 +19,11 @@
 
     </div>
     <#list page.content as message>
-        <div class="row align-items-center border border-secondary" <#if message.filename??> style="background: aquamarine;" </#if>>
+        <#if  currentDateTime <= message.date?datetime.iso>
+        <div class="row align-items-center border border-secondary" <#if message.date?datetime.iso?string["EEE"] =="вс"> style="background: #ffc9b8;"  <#elseif message.date?datetime.iso?string["EEE"] =="сб">style="background: #ffdda4;"</#if>>
             <div class="col"><span>${message.name}</span></div>
-            <div class="col"><#if message.filename??><a href="/img/${message.filename}"><img src="/img/${message.filename}" class="img-fluid "  style="max-height: 50px"></a></#if></div>
+            <div class="col"><#if message.filename??><a href="/img/${message.filename}" data-lightbox="image-1" data-title="${message.name}" data-alt="Превью мероприятия">
+                    <img src="/img/${message.filename}" class="modal-dialog modal-dialog-centered"  style="max-height: 50px" ></a></#if></div>
             <div class="col"><span>${message.date}</span></div>
             <div class="col"><span>${message.text}</span></div>
             <div class="col"><i>#${message.tag}</i></div>
@@ -30,13 +33,9 @@
             <div class="col"><#if message.authorId == currentUserId><a class="btn btn-primary" href="/user-messages/${message.authorId}?message=${message.id}">Редактировать</a></#if></div>
 
         </div>
+        </#if>
     <#else >
         Нет новостей
     </#list>
 </div>
-<script>
-    function popup() {
-        window.open("../img/b4594eb8-8e02-49b7-b33a-f6ea42580804.k.jpg", 'window', 'width=200,height=100');
-    }
-</script>
 <@p.pager url page/>
