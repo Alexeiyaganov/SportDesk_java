@@ -21,7 +21,6 @@ public class MessageDto {
     public MessageDto(Message message, Long likes, Boolean meLiked) {
         this.id = message.getId();
         this.name = message.getName();
-        this.date = message.getDate();
         this.text = message.getText();
         this.tag = message.getTag();
         this.author = message.getAuthor();

@@ -18,8 +18,8 @@
 
     </div>
     <#list page.content as message>
-        <#if  message.date?datetime.iso <= currentDateTime>
-            <div class="row align-items-center border border-secondary" <#if message.date?datetime.iso?string["EEE"] =="Sun"> style="background: crimson;"  <#elseif message.date?datetime.iso?string["EEE"] =="Sun">style="background: coral;"</#if>>
+        <#if  message.date <= currentDateTime>
+            <div class="row align-items-center border border-secondary" <#if message.date?string["EEE"] =="вс"> style="background: #ffc9b8;"  <#elseif message.date?string["EEE"] =="сб">style="background: #ffdda4;"</#if>>
                 <div class="col"><span>${message.name}</span></div>
                 <div class="col"><span>${message.date}</span></div>
                 <div class="col"><span>${message.text}</span></div>

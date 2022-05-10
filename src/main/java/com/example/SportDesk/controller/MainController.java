@@ -26,11 +26,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -85,7 +86,14 @@ public class MainController {
         }else {
 
             saveFile(message, file);
-            saveDate(message, localDateTime);
+
+            Timestamp ts = new Timestamp(localDateTime.toInstant(ZoneOffset.UTC).toEpochMilli());
+            message.setDate(ts);
+
+            Timestamp lastupdate = new Timestamp(System.currentTimeMillis());
+            message.setLastupdate(lastupdate);
+
+
 
             model.addAttribute("message", null);
 
@@ -100,12 +108,14 @@ public class MainController {
     }
 
 
-    private void saveDate(@Valid Message message, @RequestParam("localDateTime")
+
+
+    /*private void saveDate(@Valid Message message, @RequestParam("localDateTime")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime localDateTime) throws IOException {
         String mydate=localDateTime.toString();
 
         message.setDate(mydate);
-    }
+    }*/
 
 
     private void saveFile(@Valid Message message, @RequestParam("file") MultipartFile file) throws IOException {

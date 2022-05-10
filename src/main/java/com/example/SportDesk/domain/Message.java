@@ -2,12 +2,12 @@ package com.example.SportDesk.domain;
 
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.format.annotation.DateTimeFormat;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import java.sql.Timestamp;
+
 
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -25,10 +25,10 @@ public class Message {
     @Length(max=2048, message="Информация слишком большая (больше 2kB)")
     private String text;
 
-    private String date;
+    private Timestamp date;
 
-    @CreatedDate
-    
+    private Timestamp lastupdate;
+
 
     @Length(max=255, message="Тэг слишком длинный")
     private  String tag;
@@ -62,14 +62,6 @@ public class Message {
 
     public void setAuthor(User author) {
         this.author = author;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate (String date) {
-        this.date = date;
     }
 
 
@@ -112,5 +104,21 @@ public class Message {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public Timestamp getLastupdate() {
+        return lastupdate;
+    }
+
+    public void setLastupdate(Timestamp lastupdate) {
+        this.lastupdate = lastupdate;
     }
 }
