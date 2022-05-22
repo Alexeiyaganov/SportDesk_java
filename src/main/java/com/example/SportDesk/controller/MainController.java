@@ -180,7 +180,7 @@ public class MainController {
         model.addAttribute("page", page);
         model.addAttribute("url", "/user-messages/" + user);
 
-        return "userMessages";
+        return "UserMessages";
     }
 
     @PostMapping("/user-messages/{user}")
