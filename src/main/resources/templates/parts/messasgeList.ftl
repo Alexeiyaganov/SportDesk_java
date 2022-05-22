@@ -25,6 +25,8 @@
             <div class="col"><#if message.filename??><a href="/img/${message.filename}" data-lightbox="image-1" data-title="${message.name}" data-alt="Превью мероприятия">
                     <img src="/img/${message.filename}" class="modal-dialog modal-dialog-centered"  style="max-height: 50px" ></a></#if></div>
             <div class="col"><span>${message.date}</span></div>
+            <div class="col"><span>${message.location}</span></div>
+
             <div class="col"><span>${message.text}</span></div>
             <div class="col"><i>#${message.tag}</i></div>
             <div class="col"><a class="btn btn-primary" href="/user-messages/${message.authorId}">Подробнее</a></div>
@@ -33,6 +35,17 @@
             <div class="col"><#if message.authorId == currentUserId><a class="btn btn-primary" href="/user-messages/${message.authorId}?message=${message.id}">Редактировать</a></#if></div>
 
         </div>
+
+            <input type="hidden" id="xview" value="${message.latitude}">
+            <input type="hidden" id="yview" value="${message.longitude}">
+            <input type="hidden" id="location_view" value="${message.location}">
+        <div id="map_view" style="width: 600px; height: 400px" >
+
+        </div>
+
+
+
+
         </#if>
     <#else >
         Нет новостей

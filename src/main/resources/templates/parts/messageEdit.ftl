@@ -19,8 +19,7 @@
                 </div>
 
                 <div class="form-group ${(dateError??)?string('is-invalid', '')}">
-                    <input type="datetime-local" class="form-control " value="<#if message??>${message.date}</#if>"
-                           name="localDateTime" />
+                    <input type="datetime-local" class="form-control " value="<#if message??>${message.setLocalDateTime()}</#if>" name="localDateTime" />
                     <#if dateError??>
                         <div class="invalid-feedback">
                             ${dateError}
@@ -29,8 +28,6 @@
                     </#if>
 
                 </div>
-
-
 
 
                 <div class="form-group">
@@ -52,6 +49,14 @@
 
                         </div>
                     </#if>
+                </div>
+                <div class="form-group">
+                    <div id="map" style="width: 600px; height: 400px"></div>
+                    <input type="hidden" id="xpoint" value="<#if message??>${message.latitude}</#if>">
+                    <input type="hidden" id="yypoint" value="<#if message??>${message.longitude}</#if>">
+                    <input type="hidden" id="location_point" value="<#if message??>${message.location}</#if>">
+                    <input type="hidden" name="location_name" id="name_point" value="<#if message??>${message.location}</#if>" class="form-input">
+                    <input type="hidden" name="location" id="yandex_point" class="form-input">
                 </div>
                 <div class="form-group">
                     <div class="custom-file">

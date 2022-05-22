@@ -1,3 +1,6 @@
+CREATE EXTENSION postgis;
+
+
 create sequence hibernate_sequence start 1 increment 1;
 
 create table message (
@@ -5,10 +8,13 @@ create table message (
     filename varchar(255),
     tag varchar(255),
     name varchar(500),
-    date TIMESTAMP WITHOUT TIME ZONE,
+    date TIMESTAMP WITH TIME ZONE,
     lastupdate TIMESTAMP WITHOUT TIME ZONE,
     time varchar(255),
     text varchar(2048),
+    latitude varchar(200),
+    longitude varchar(200),
+    location varchar(255),
     user_id int8,
     primary key (id)
 );

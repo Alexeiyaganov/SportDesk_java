@@ -2,12 +2,13 @@ package com.example.SportDesk.domain;
 
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.geo.Point;
 
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
-
+import java.time.LocalDateTime;
 
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -29,6 +30,18 @@ public class Message {
 
     private Timestamp lastupdate;
 
+    //@Column(name = "location", columnDefinition="Point")
+    //private Point location;
+
+    @Length(max=200, message="Информация слишком большая (больше 2kB)")
+    private String latitude;
+
+    @Length(max=200, message="Информация слишком большая (больше 2kB)")
+    private String longitude;
+
+    @Length(max=250, message="Информация слишком большая (больше 2kB)")
+    private String location;
+
 
     @Length(max=255, message="Тэг слишком длинный")
     private  String tag;
@@ -38,6 +51,7 @@ public class Message {
     private User author;
 
     private String filename;
+
 
     public Message() {
     }
@@ -113,6 +127,9 @@ public class Message {
     public Timestamp getDate() {
         return date;
     }
+    public LocalDateTime setLocalDateTime(){
+        return date.toLocalDateTime();
+    }
 
     public Timestamp getLastupdate() {
         return lastupdate;
@@ -121,4 +138,32 @@ public class Message {
     public void setLastupdate(Timestamp lastupdate) {
         this.lastupdate = lastupdate;
     }
+
+
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Point location) {
+        this.latitude = String.valueOf(location.getX());
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Point location) {
+        this.longitude = String.valueOf(location.getY());
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+
 }

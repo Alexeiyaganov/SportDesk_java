@@ -113,6 +113,14 @@
             <version>5.6.0</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- for PostGis -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-spatial</artifactId>
+            <version>5.4.15.Final</version>
+        </dependency>
+
     </dependencies>
 
     <properties>
