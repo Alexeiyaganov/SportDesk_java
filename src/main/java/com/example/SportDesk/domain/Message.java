@@ -1,6 +1,7 @@
 package com.example.SportDesk.domain;
 
 
+import com.example.SportDesk.domain.util.MessageHelper;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.geo.Point;
 
@@ -9,6 +10,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -30,9 +33,6 @@ public class Message {
 
     private Timestamp lastupdate;
 
-    //@Column(name = "location", columnDefinition="Point")
-    //private Point location;
-
     @Length(max=200, message="Информация слишком большая (больше 2kB)")
     private String latitude;
 
@@ -50,21 +50,34 @@ public class Message {
     @JoinColumn(name ="user_id")
     private User author;
 
+
+    @ManyToMany
+    @JoinTable(
+            name = "message_likes",
+            joinColumns={@JoinColumn(name="message_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    private Set<User> likes = new HashSet<>();
+
     private String filename;
 
 
     public Message() {
     }
 
-    public Message(String name, String text, String tag, User user) {
+    public Message(String name, String text, String tag, Timestamp date, User user, String latitude, String longitude, String location) {
         this.name=name;
         this.author=user;
         this.text = text;
         this.tag = tag;
+        this.date=date;
+        this.latitude=latitude;
+        this.longitude=longitude;
+        this.location=location;
     }
 
     public String getAuthorName(){
-        return author!=null ? author.getUsername() : "<none>";
+        return MessageHelper.getAuthorName(author);
     }
     public Long getAuthorId(){
         return author!=null ? author.getId() : -1;
@@ -166,4 +179,11 @@ public class Message {
     }
 
 
+    public Set<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<User> likes) {
+        this.likes = likes;
+    }
 }

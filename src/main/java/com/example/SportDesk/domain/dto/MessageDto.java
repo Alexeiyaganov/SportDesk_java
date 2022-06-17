@@ -4,27 +4,37 @@ import com.example.SportDesk.domain.Message;
 import com.example.SportDesk.domain.User;
 import com.example.SportDesk.domain.util.MessageHelper;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.sql.Timestamp;
+
 
 public class MessageDto {
     private Long id;
     private String name;
-    private String date;
+    private Timestamp date;
     private String text;
     private String tag;
     private User author;
     private String filename;
+    private String latitude;
+    private String longitude;
+    private String location;
+    private Timestamp lastupdate;
     private Long likes;
     private Boolean meLiked;
+
 
     public MessageDto(Message message, Long likes, Boolean meLiked) {
         this.id = message.getId();
         this.name = message.getName();
         this.text = message.getText();
         this.tag = message.getTag();
+        this.date=message.getDate();
         this.author = message.getAuthor();
         this.filename = message.getFilename();
+        this.latitude=message.getLatitude();
+        this.longitude=message.getLongitude();
+        this.location=message.getLocation();
+        this.lastupdate=message.getLastupdate();
         this.likes = likes;
         this.meLiked = meLiked;
     }
@@ -33,49 +43,6 @@ public class MessageDto {
         return MessageHelper.getAuthorName(author);
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public Long getLikes() {
-        return likes;
-    }
-
-    public Boolean getMeLiked() {
-        return meLiked;
-    }
-
-    @Override
-    public String toString() {
-        return "MessageDto{" +
-                "id=" + id +
-                ", author=" + author +
-                ", likes=" + likes +
-                ", meLiked=" + meLiked +
-                '}';
-    }
 }

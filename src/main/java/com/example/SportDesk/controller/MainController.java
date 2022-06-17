@@ -1,9 +1,12 @@
 package com.example.SportDesk.controller;
 
 import com.example.SportDesk.domain.Message;
+import com.example.SportDesk.domain.Sportsman;
 import com.example.SportDesk.domain.User;
+import com.example.SportDesk.domain.dto.MessageDto;
 import com.example.SportDesk.repos.MessageRepo;
 import com.example.SportDesk.service.MessageService;
+import com.example.SportDesk.service.SportsmanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -56,7 +59,7 @@ public class MainController {
             @PageableDefault(sort = {"date"}, direction = Sort.Direction.ASC) Pageable pageable,
             @AuthenticationPrincipal User user
     ) {
-        Page<Message> page = messageService.messageList(pageable, filter, user);
+        Page<MessageDto> page = messageService.messageList(pageable, filter, user);
 
         model.addAttribute("page", page);
         model.addAttribute("url", "/main");
@@ -165,7 +168,7 @@ public class MainController {
             @RequestParam(required = false) Message message,
             @PageableDefault(sort = {"date"}, direction = Sort.Direction.ASC) Pageable pageable
     ){
-        Page<Message> page = messageService.messageListForUser(pageable, currentUser, user);
+        Page<MessageDto> page = messageService.messageListForUser(pageable, currentUser, user);
 
         //LocalDateTime localDateTime=message.getDate().toLocalDateTime();
 
@@ -224,6 +227,19 @@ public class MainController {
         }
 
         return "redirect:/user-messages/"+user;
+    }
+
+    @GetMapping("/details/{message}")
+    public String userMessges(
+            @PathVariable Message message,
+            //@PathVariable Sportsman sportsman,
+            Model model
+    ){
+
+        model.addAttribute("message", message);
+       // model.addAttribute("sportsman", sportsman);
+
+        return "details";
     }
 
 }

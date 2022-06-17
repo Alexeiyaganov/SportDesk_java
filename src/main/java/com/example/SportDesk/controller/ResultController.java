@@ -1,6 +1,7 @@
 package com.example.SportDesk.controller;
 import com.example.SportDesk.domain.Message;
 import com.example.SportDesk.domain.User;
+import com.example.SportDesk.domain.dto.MessageDto;
 import com.example.SportDesk.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,7 +28,7 @@ public class ResultController {
             @PageableDefault(sort = {"date"}, direction = Sort.Direction.DESC) Pageable pageable,
             @AuthenticationPrincipal User user
     ) {
-        Page<Message> page = messageService.messageList(pageable, filter, user);
+        Page<MessageDto> page = messageService.messageList(pageable, filter, user);
 
         model.addAttribute("page", page);
         model.addAttribute("url", "/main");

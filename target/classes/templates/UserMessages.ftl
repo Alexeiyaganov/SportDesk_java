@@ -37,5 +37,5 @@
 <#if isCurrentUser>
     <#include "parts/messageEdit.ftl"/>
 </#if>
-    <#include "parts/messasgeList.ftl"/>
+    <#include "parts/messageList.ftl"/>
 </@c.page>

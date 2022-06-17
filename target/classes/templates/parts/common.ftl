@@ -12,6 +12,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script src="https://kit.fontawesome.com/3183a007ea.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <#include "navbar.ftl">
@@ -34,8 +35,8 @@
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=91338724-ec0e-4212-bc50-35ceb4c00b45" type="text/javascript"></script>
 
 
-<script src="/static/js/placemark.js" type="text/javascript"></script>
-<script src="/static/js/placemark_view.js" type="text/javascript"></script>
+<script src="../static/js/placemark.js" type="text/javascript"></script>
+<script src="../static/js/placemark_view.js" type="text/javascript"></script>
 
 </body>
 </html>

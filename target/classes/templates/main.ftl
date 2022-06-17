@@ -11,8 +11,7 @@
     </div>
 </div>
 <#include "parts/messageEdit.ftl"/>
-<#include "parts/messasgeList.ftl"/>
+<#include "parts/messageList.ftl"/>
 
-<div id="map" style="width: 600px; height: 400px"></div>
 
 </@c.page>

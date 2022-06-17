@@ -1,10 +1,10 @@
 <#include "security.ftl">
 <#if user??>
-    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    <a class="btn btn-primary" data-toggle="collapse" href="#messageEdit" role="button" aria-expanded="false" aria-controls="collapseExample">
         Добавить мероприятие
     </a>
 
-    <div class="collapse <#if message??>show</#if>" id="collapseExample">
+    <div class="collapse <#if message??>show</#if>" id="messageEdit">
         <div class="form-group mt-3">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">

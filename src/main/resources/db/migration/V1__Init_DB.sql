@@ -10,7 +10,6 @@ create table message (
     name varchar(500),
     date TIMESTAMP WITH TIME ZONE,
     lastupdate TIMESTAMP WITHOUT TIME ZONE,
-    time varchar(255),
     text varchar(2048),
     latitude varchar(200),
     longitude varchar(200),
@@ -18,6 +17,14 @@ create table message (
     user_id int8,
     primary key (id)
 );
+
+create table sportsman(
+    id int8 not null,
+    name varchar(250),
+    lastname varchar(250),
+    user_id int8
+);
+
 
 create table user_role (
     user_id int8 not null,
