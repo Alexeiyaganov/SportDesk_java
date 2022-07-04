@@ -1,12 +1,10 @@
 package com.example.SportDesk.controller;
 
 import com.example.SportDesk.domain.Message;
-import com.example.SportDesk.domain.Sportsman;
 import com.example.SportDesk.domain.User;
 import com.example.SportDesk.domain.dto.MessageDto;
 import com.example.SportDesk.repos.MessageRepo;
 import com.example.SportDesk.service.MessageService;
-import com.example.SportDesk.service.SportsmanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -53,8 +50,7 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(
-            @RequestParam(required = false, defaultValue = "")
-            String filter,
+            @RequestParam(required = false, defaultValue = "")String filter,
             Model model,
             @PageableDefault(sort = {"date"}, direction = Sort.Direction.ASC) Pageable pageable,
             @AuthenticationPrincipal User user
@@ -76,6 +72,8 @@ public class MainController {
             Model model,
             @RequestParam("localDateTime")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime localDateTime,
+            @RequestParam(required = false, defaultValue = "") String filter,
+            @PageableDefault(sort = { "id" }, direction = Sort.Direction.ASC) Pageable pageable,
             @RequestParam("location") String location,
             @RequestParam("location_name") String location_name,
             @RequestParam("file") MultipartFile file
@@ -108,11 +106,10 @@ public class MainController {
             messageRepo.save(message);
         }
 
-        Iterable<Message> messages = messageRepo.findAll();
+        Page<MessageDto> page = messageService.messageList(pageable, filter, user);
+        model.addAttribute("page", page);
 
-        model.addAttribute("messages", messages);
-
-        return "redirect:/main";
+        return "main";
     }
 
 
